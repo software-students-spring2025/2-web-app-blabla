@@ -49,20 +49,22 @@
         height: 100%;
         object-fit: contain;
       }
+      .highlighted {
+        filter: hue-rotate(180deg);
+      }
     </style>
   </head>
   <body>
     <!-- Flash message block -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="flash-container">
-          {% for category, message in messages %}
-            <div class="flash {{ category }}">{{ message }}</div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-    
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
     <header>
       <h1>Welcome, {{ username }}!</h1>
     </header>
@@ -72,53 +74,104 @@
         src="/static/images/search.svg"
         alt="search icon"
       />
+      <input type="text" id="search-box" placeholder="search dreams..." />
     </nav>
-    
+
     <!-- 合并 bubble, star, bear 三个容器 -->
     <div class="home-container">
       <div class="bubble-container">
-        <img class="bubble-img" src="/static/images/thought_bubble.svg" alt="thought-bubble">
+        <img
+          class="bubble-img"
+          src="/static/images/thought_bubble.svg"
+          alt="thought-bubble"
+        />
       </div>
-      
+
       <!-- 星星容器：星星会随机定位在该区域内 -->
       <div id="star-container">
         {% for dream in dreams %}
-        <a href="/edit_dream?dream_id={{ dream.id }}" class="star" title="{{ dream.description }}">
-          <img src="/static/images/star.svg" alt="star icon">
-        </a>        
+        <a
+          href="/edit_dream?dream_id={{ dream.id }}"
+          class="star"
+          title="{{ dream.description }}"
+          data-tags="{{ ','.join(dream.tags) if 'tags' in dream else '' }}"
+        >
+          <img src="/static/images/star.svg" alt="star icon" />
+        </a>
         {% endfor %}
       </div>
-      
-      
+
       <div class="bear-container">
         <img src="/static/images/homepg_bear.svg" alt="home-bear" />
         <a href="/add_dream"><button class="dream-button">Add Dream</button></a>
       </div>
     </div>
-    
+
     <script>
-      window.onload = function() {
-        const container = document.getElementById('star-container');
+      window.onload = function () {
+        const container = document.getElementById("star-container");
         const containerWidth = container.offsetWidth;
         const containerHeight = container.offsetHeight;
-        const stars = Array.from(container.getElementsByClassName('star'));
+        const stars = Array.from(container.getElementsByClassName("star"));
         const placedStars = []; // 保存已经定位好的星星
-    
-        stars.forEach(star => {
-          let maxAttempts = 100;  // 避免无限循环，最多尝试100次
+        const searchIcon = document.querySelector(".search-icon");
+        const searchBox = document.createElement("input");
+
+        searchBox.type = "text";
+        searchBox.id = "search-box";
+        searchBox.placeholder = "Search dreams...";
+        searchBox.style.display = "none"; // Initially hidden
+        searchBox.style.position = "absolute";
+        searchBox.style.top = "124px";
+        searchBox.style.left = "100px";
+        // searchBox.style.padding = "5px";
+        // searchBox.style.border = "1px solid #ccc";
+        // searchBox.style.borderRadius = "5px";
+
+        document.body.appendChild(searchBox);
+
+        searchIcon.addEventListener("click", function () {
+          if (
+            searchBox.style.display === "none" ||
+            searchBox.style.display === ""
+          ) {
+            searchBox.style.display = "inline-block";
+            searchBox.focus();
+          } else {
+            searchBox.style.display = "none";
+          }
+        });
+
+        searchBox.addEventListener("input", function () {
+          const query = searchBox.value.trim().toLowerCase();
+
+          stars.forEach((star) => {
+            const tags = star.getAttribute("data-tags") || "";
+            const tagArray = tags.toLowerCase().split(","); // Convert tags into an array
+
+            if (tagArray.some((tag) => tag.includes(query)) && query !== "") {
+              star.classList.add("highlighted"); // Apply color change
+            } else {
+              star.classList.remove("highlighted"); // Remove color if it doesn't match
+            }
+          });
+        });
+
+        stars.forEach((star) => {
+          let maxAttempts = 100; // 避免无限循环，最多尝试100次
           let placed = false;
-    
+
           while (!placed && maxAttempts > 0) {
             // 随机生成 left 和 top 值
             const left = Math.random() * (containerWidth - star.offsetWidth);
             const top = Math.random() * (containerHeight - star.offsetHeight);
-            star.style.left = left + 'px';
-            star.style.top = top + 'px';
-    
+            star.style.left = left + "px";
+            star.style.top = top + "px";
+
             // 获取当前星星的位置信息
             const starRect = star.getBoundingClientRect();
             // 检测是否与已放置的星星重叠
-            const overlap = placedStars.some(otherStar => {
+            const overlap = placedStars.some((otherStar) => {
               const otherRect = otherStar.getBoundingClientRect();
               return !(
                 starRect.right < otherRect.left ||
@@ -127,18 +180,16 @@
                 starRect.top > otherRect.bottom
               );
             });
-    
+
             if (!overlap) {
               placed = true;
               placedStars.push(star);
             }
-    
+
             maxAttempts--;
           }
-         
-        })
+        });
       };
     </script>
-    
   </body>
 </html>

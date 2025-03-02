@@ -133,7 +133,7 @@ def add_dream():
 
 
 # home page
-@app.route("/home")
+@app.route("/home", methods = ["GET", "POST"])
 def home():
     username = session.get("username")
     if not username:
@@ -142,6 +142,10 @@ def home():
     user_doc = users_collection.find_one({"username": username})
     dreams = user_doc.get("dreams", [])
     
+    search_query = request.args.get("query", "").strip()
+    if search_query:
+        dreams = [dream for dream in dreams if search_query.lower() in dream.get("description", "").lower()]
+
     return render_template("home.html", username=username, dreams=dreams)
 
 # analysis page
