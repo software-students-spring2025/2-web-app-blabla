@@ -3,68 +3,67 @@
   <head>
     <title>Analysis Page</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <link
-      href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <!-- Inline styling for demonstration -->
     <style>
+      /* Container: centered, with a max width */
       .analysis-container {
-        display: block;
         max-width: 900px;
-        padding: 0;        
+        margin: 2rem auto; /* Centers horizontally and adds vertical spacing */
+        padding: 0;       /* No internal padding to keep blocks flush at the edges */
       }
 
+      /* Back link style */
       .back-link {
         display: inline-block;
         margin-bottom: 1rem;
         text-decoration: none;
-        font-size: 2rem;
+        font-size: 1.2rem;
         color: #333;
       }
       .back-link:hover {
         text-decoration: underline;
       }
+
+      /* Trend blocks: gray background, no gaps between them */
       .trend-container {
-        background: #f9f9f9; 
-        border-radius: 8px;
+        background: #f9f9f9;
         padding: 1rem;
-        margin: 1px; 
-        display: block;
-        width: 110%; 
+        margin: 0;           /* Remove top/bottom margin */
+        border-radius: 0;    /* Remove rounded corners if you want them flush */
       }
 
+      /* Ensure each block is directly stacked with no gap in between */
       .trend-container + .trend-container {
-        margin-top: -1px;
-        border-top: none;
-        padding-top: 0; 
+        border-top: 2px solid white; /* Optional: a subtle separator line */
       }
 
-      /* Larger font sizes */
+      /* Headings for each block */
       .trend-container h2 {
-        margin: 0 0 1rem;
-        font-size: 3rem; 
+        margin-top: 0;
+        font-size: 1.5rem;
         color: #333;
       }
 
-      /* Remove default list styling, bigger font */
+      /* Trend lists */
       .trend-container ul {
         list-style-type: none;
         padding-left: 0;
+        margin: 0;
       }
       .trend-container li {
         margin-bottom: 0.5rem;
-        font-size: 2rem;
+        font-size: 1.1rem;
       }
     </style>
   </head>
   <body>
     <div class="analysis-container">
-      <!-- Back link -->
       <a class="back-link" href="/home">← Back</a>
 
-      <!-- 1) Mood Distribution -->
+      <!-- 1) Tag Trends -->
       <div class="trend-container">
-        <h2>Dream Mood Distribution</h2>
+        <h2>Dream Tag Trends</h2>
         {% if tag_trends %}
           <ul>
             {% for trend in tag_trends %}
@@ -76,7 +75,21 @@
         {% endif %}
       </div>
 
-      <!-- 2) Monthly Dream Frequency -->
+      <!-- 2) Mood Distribution -->
+      <div class="trend-container">
+        <h2>Dream Mood Distribution</h2>
+        {% if mood_trends %}
+          <ul>
+            {% for trend in mood_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No mood data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 3) Monthly Dream Frequency -->
       <div class="trend-container">
         <h2>Monthly Dream Frequency</h2>
         {% if month_trends %}
@@ -91,9 +104,6 @@
         {% else %}
           <p>No monthly data available.</p>
         {% endif %}
-      </div>
-      <div class="bear">
-        <img src="/static/images/homepg_bear.svg" alt="home-bear" />
       </div>
     </div>
   </body>

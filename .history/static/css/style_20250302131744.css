@@ -381,16 +381,9 @@ nav{
 }
 
 .analysis-button {
-    font-family: 'Indie Flower', cursive;
     padding: 10px 20px;
-    font-size: 24px;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
-
-.center-button-container {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}

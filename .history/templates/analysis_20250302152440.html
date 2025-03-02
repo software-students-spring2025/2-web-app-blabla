@@ -8,12 +8,14 @@
       rel="stylesheet"
     />
     <style>
+      /* Center the container and give it a max width */
       .analysis-container {
-        display: block;
         max-width: 900px;
-        padding: 0;        
+        margin: 2rem auto;  /* Centers the container horizontally */
+        padding: 0;         /* No extra padding */
       }
 
+      /* Style the back link */
       .back-link {
         display: inline-block;
         margin-bottom: 1rem;
@@ -24,25 +26,24 @@
       .back-link:hover {
         text-decoration: underline;
       }
+
+      /* Each block has a gray background, no gap between them */
       .trend-container {
         background: #f9f9f9; 
         border-radius: 8px;
         padding: 1rem;
-        margin: 1px; 
-        display: block;
-        width: 110%; 
+        margin: 0;  /* Remove default margin */
       }
-
+      /* Remove the gap between consecutive .trend-container blocks */
       .trend-container + .trend-container {
-        margin-top: -1px;
-        border-top: none;
-        padding-top: 0; 
+        margin-top: 0;
+        border-top: 2px solid #ddd; /* Optional: subtle divider line */
       }
 
       /* Larger font sizes */
       .trend-container h2 {
         margin: 0 0 1rem;
-        font-size: 3rem; 
+        font-size: 2rem; 
         color: #333;
       }
 
@@ -53,7 +54,7 @@
       }
       .trend-container li {
         margin-bottom: 0.5rem;
-        font-size: 2rem;
+        font-size: 1.5rem;
       }
     </style>
   </head>
@@ -62,9 +63,9 @@
       <!-- Back link -->
       <a class="back-link" href="/home">← Back</a>
 
-      <!-- 1) Mood Distribution -->
+      <!-- 1) Tag Trends -->
       <div class="trend-container">
-        <h2>Dream Mood Distribution</h2>
+        <h2>Dream Tag Trends</h2>
         {% if tag_trends %}
           <ul>
             {% for trend in tag_trends %}
@@ -76,7 +77,21 @@
         {% endif %}
       </div>
 
-      <!-- 2) Monthly Dream Frequency -->
+      <!-- 2) Mood Distribution -->
+      <div class="trend-container">
+        <h2>Dream Mood Distribution</h2>
+        {% if mood_trends %}
+          <ul>
+            {% for trend in mood_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No mood data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 3) Monthly Dream Frequency -->
       <div class="trend-container">
         <h2>Monthly Dream Frequency</h2>
         {% if month_trends %}
@@ -91,9 +106,6 @@
         {% else %}
           <p>No monthly data available.</p>
         {% endif %}
-      </div>
-      <div class="bear">
-        <img src="/static/images/homepg_bear.svg" alt="home-bear" />
       </div>
     </div>
   </body>
