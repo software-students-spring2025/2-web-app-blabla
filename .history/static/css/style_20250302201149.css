@@ -407,7 +407,7 @@ nav{
 .analysis-button {
     font-family: 'Indie Flower', cursive;
     padding: 10px 20px;
-    font-size: 36px;
+    font-size: 24px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -439,4 +439,4 @@ nav{
 
 .delete-button {
     width: 420px !important;
-}
+  }

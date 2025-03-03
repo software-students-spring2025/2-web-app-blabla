@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Analysis Page</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .analysis-container {
+        display: block;
+        max-width: 900px;
+        padding: 0;        
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        text-decoration: none;
+        font-size: 2rem;
+        color: #333;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      .trend-container {
+        background: #f9f9f9; 
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1px; 
+        display: block;
+        width: 110%; 
+      }
+
+      .trend-container + .trend-container {
+        margin-top: -1px;
+        border-top: none;
+        padding-top: 0; 
+      }
+
+      .trend-container h2 {
+        margin: 0 0 1rem;
+        font-size: 3rem; 
+        color: #333;
+      }
+
+      .trend-container ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .trend-container li {
+        margin-bottom: 0.5rem;
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="analysis-container">
+      <!-- Back link -->
+      <a class="back-link" href="/home">← Back</a>
+
+      <!-- 1) Mood Distribution -->
+      <div class="trend-container">
+        <h2>Dream Mood Distribution</h2>
+        {% if tag_trends %}
+          <ul>
+            {% for trend in tag_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No tag data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 2) Monthly Dream Frequency -->
+      <div class="trend-container">
+        <h2>Monthly Dream Frequency</h2>
+        {% if month_trends %}
+          <ul>
+            {% for trend in month_trends %}
+              <li>
+                <strong>{{ trend._id.year }}-{{ trend._id.month }}:</strong>
+                {{ trend.count }} dreams
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No monthly data available.</p>
+        {% endif %}
+      </div>
+      <div class="bear">
+        <img src="/static/images/homepg_bear.svg" alt="home-bear" />
+      </div>
+    </div>
+  </body>
+</html>

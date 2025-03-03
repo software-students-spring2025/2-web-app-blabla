@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Add Dream</title>
+    <title>Edit Dream</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <style>
@@ -16,7 +16,6 @@
       .tag.selected {
         background-color: #ffd700; /* Changes color when selected */
         border-color: #ffa500;
-        font-weight: bold;
       }
     </style>
   </head>
@@ -39,34 +38,42 @@
         <img src="/static/images/dream_bear.svg" alt="dream-bear" class="bear-image">
       </div>
 
-      <form action="/add_dream" method="POST">
+      <!-- 编辑表单，同时支持修改和删除 -->
+      <form action="/update_dream" method="POST">
+        <!-- 隐藏字段，传递当前梦的 id -->
+        <input type="hidden" name="dream_id" value="{{ dream.id }}">
+
         <div class="date-container">
           <label class="date-label" for="day">Date</label>
           <div class="date-inputs">
-            <input type="text" id="day" name="day" placeholder="Day">
-            <input type="text" id="month" name="month" placeholder="Month">
-            <input type="text" id="year" name="year" placeholder="Year">
+            <!-- 假设 dream.date 是 datetime 对象 -->
+            <input type="text" id="day" name="day" placeholder="Day" value="{{ dream.date.strftime('%d') }}">
+            <input type="text" id="month" name="month" placeholder="Month" value="{{ dream.date.strftime('%m') }}">
+            <input type="text" id="year" name="year" placeholder="Year" value="{{ dream.date.strftime('%Y') }}">
           </div>
         </div>
 
         <div class="tags-container">
           <p>Choose Your Tags:</p>
-          <!-- Only these four tag buttons remain -->
-          <button type="button" class="tag">Happy</button>
-          <button type="button" class="tag">Funny</button>
-          <button type="button" class="tag">Sad</button>
-          <button type="button" class="tag">Scared</button>
+          <!-- 根据存储的标签，预选相应的按钮 -->
+          <button type="button" class="tag {% if 'Happy' in dream.tags %}selected{% endif %}">Happy</button>
+          <button type="button" class="tag {% if 'Funny' in dream.tags %}selected{% endif %}">Funny</button>
+          <button type="button" class="tag {% if 'Sad' in dream.tags %}selected{% endif %}">Sad</button>
+          <button type="button" class="tag {% if 'Scared' in dream.tags %}selected{% endif %}">Scared</button>
         </div>
-        <!-- Hidden field to store selected tags -->
-        <input type="hidden" id="tags" name="tags" value="">
+        <!-- 隐藏字段，存储以逗号分隔的选中标签，初始值为存储的标签 -->
+        <input type="hidden" id="tags" name="tags" value="{{ dream.tags | join(',') }}">
 
         <div class="description-container">
-          <label for="dream-description">Description</label>
-          <textarea id="dream-description" name="dream-description" placeholder="Description..."></textarea>
+          <label for="dream-description">Input Description</label>
+          <textarea id="dream-description" name="dream-description" placeholder="Description...">{{ dream.description }}</textarea>
         </div>
 
         <div class="button-container">
-          <button type="submit" class="save-dream-button">Save Your Dream</button>
+          <!-- 编辑保存按钮 -->
+          <button type="submit" class="save-dream-button" name="action" value="edit">Save Changes</button>
+          <!-- 删除按钮 -->
+          <button type="submit" class="save-dream-button" name="action" value="delete">Delete Dream</button>
         </div>
       </form>
     </div>
@@ -75,7 +82,8 @@
       document.addEventListener("DOMContentLoaded", function() {
         const tagButtons = document.querySelectorAll(".tag");
         const hiddenTagsField = document.getElementById("tags");
-        let selectedTags = [];
+        // 初始化 selectedTags 为隐藏域当前值的数组
+        let selectedTags = hiddenTagsField.value ? hiddenTagsField.value.split(",") : [];
 
         tagButtons.forEach(button => {
           button.addEventListener("click", function() {
