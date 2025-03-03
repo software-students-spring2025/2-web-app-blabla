@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Analysis Page</title>
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="analysis-container">
+            <a class="back-link" href="/home"> ← Back</a>
+            <!-- Trend Analysis Section -->
+            <div class="trend-container">
+              {% if trends %}
+                <h2>Dream Tag Trends</h2>
+                <ul>
+                  {% for trend in trends %}
+                    <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No trend data available.</p>
+              {% endif %}
+            </div>
+            <div class="bear">
+              <img src="/static/images/homepg_bear.svg" alt="home-bear" />
+            </div>
+        </div>
+    </body>
+</html>

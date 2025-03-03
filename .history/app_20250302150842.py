@@ -153,7 +153,7 @@ def analysis():
         flash("Please log in.", "error")
         return redirect(url_for("index"))
 
-    # 1) MOOD DISTRIBUTION
+    # 1) TAG TRENDS
     pipeline_tags = [
         {"$match": {"username": username}},
         {"$unwind": {"path": "$dreams", "preserveNullAndEmptyArrays": True}},
@@ -164,7 +164,17 @@ def analysis():
     ]
     tag_trends = list(users_collection.aggregate(pipeline_tags))
 
-    # 2) MONTHLY DREAM FREQUENCY
+    # 2) MOOD DISTRIBUTION
+    pipeline_moods = [
+        {"$match": {"username": username}},
+        {"$unwind": {"path": "$dreams", "preserveNullAndEmptyArrays": True}},
+        {"$addFields": {"mood": {"$ifNull": ["$dreams.mood", "No Mood"]}}},
+        {"$group": {"_id": "$mood", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}}
+    ]
+    mood_trends = list(users_collection.aggregate(pipeline_moods))
+
+    # 3) MONTHLY DREAM FREQUENCY
     # Group dreams by year and month of the dream date, then count.
     pipeline_months = [
         {"$match": {"username": username}},
@@ -186,6 +196,7 @@ def analysis():
     return render_template(
         'analysis.html',
         tag_trends=tag_trends,
+        mood_trends=mood_trends,
         month_trends=month_trends
     )
 
