@@ -192,26 +192,23 @@ def analysis():
 #edit_dream page
 @app.route("/edit_dream")
 def edit_dream():
-    # 获取 URL 参数中的 dream_id
     dream_id = request.args.get("dream_id")
-    # 从 session 中获取当前登录用户名
     username = session.get("username")
     
-    # 检查 username 和 dream_id 是否存在
     if not username or not dream_id:
         flash("Invalid access. Please select a dream to edit.", "error")
         return redirect(url_for("home"))
     
-    # 输出调试信息
+
     app.logger.debug(f"edit_dream: username={username}, dream_id={dream_id}")
     
-    # 从数据库中获取该用户的文档
+    
     user_doc = users_collection.find_one({"username": username})
     if not user_doc or "dreams" not in user_doc:
         flash("User data error.", "error")
         return redirect(url_for("home"))
     
-    # 查找匹配的梦境，确保每个梦都有一个唯一的 id 字段
+   
     dream = None
     for d in user_doc["dreams"]:
         if d.get("id") == dream_id:
@@ -222,10 +219,8 @@ def edit_dream():
         flash("Dream not found.", "error")
         return redirect(url_for("home"))
     
-    # 定义一些示例标签，可根据需要调整
     tags = ["Happy", "Funny", "Excited", "XXXX"]
     
-    # 渲染 edit_dream 模板，并传递当前梦的数据和标签
     return render_template("edit_dream.html", dream=dream, tags=tags)
 
 @app.route("/update_dream", methods=["POST"])
@@ -235,11 +230,11 @@ def update_dream():
         flash("Please log in.", "error")
         return redirect(url_for("index"))
 
-    # 从表单中获取 dream_id 和操作类型
-    dream_id = request.form.get("dream_id")
-    action = request.form.get("action")  # "edit" 或 "delete"
 
-    # 获取其他表单字段（例如描述、日期、标签等）
+    dream_id = request.form.get("dream_id")
+    action = request.form.get("action")  
+
+
     day = request.form.get("day")
     month = request.form.get("month")
     year = request.form.get("year")
@@ -247,13 +242,12 @@ def update_dream():
     tags_str = request.form.get("tags", "")
     tags = [tag.strip() for tag in tags_str.split(",") if tag.strip()] if tags_str else []
 
-    # 查找当前用户
     user_doc = users_collection.find_one({"username": username})
     if not user_doc or "dreams" not in user_doc:
         flash("User data error.", "error")
         return redirect(url_for("home"))
 
-    # 找到要编辑或删除的 dream
+
     dream_list = user_doc["dreams"]
     target_dream = None
     for d in dream_list:
@@ -265,9 +259,9 @@ def update_dream():
         flash("Dream not found.", "error")
         return redirect(url_for("home"))
 
-    # 执行编辑或删除操作
+
     if action == "edit":
-        # 更新梦数据
+
         from datetime import datetime
         try:
             new_date = datetime.strptime(f"{day}-{month}-{year}", "%d-%m-%Y")
@@ -279,7 +273,7 @@ def update_dream():
         target_dream["description"] = description
         target_dream["tags"] = tags
 
-        # 写回数据库
+
         users_collection.update_one(
             {"username": username, "dreams.id": dream_id},
             {"$set": {
@@ -291,9 +285,9 @@ def update_dream():
         flash("Dream updated successfully!", "success")
 
     elif action == "delete":
-        # 从 dream_list 中移除目标梦
+       
         dream_list = [d for d in dream_list if d.get("id") != dream_id]
-        # 更新数据库
+
         users_collection.update_one(
             {"username": username},
             {"$set": {"dreams": dream_list}}
