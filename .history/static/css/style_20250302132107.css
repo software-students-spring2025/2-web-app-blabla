@@ -2,24 +2,23 @@
 
 body {
     font-family: 'Indie Flower', cursive;
-    overflow-y:hidden;
-    font-size: 24pt;
+    overflow-y:hidden
 }
 
 nav{
     display: flex;
     align-items: center;
-    height: 150px;
-    padding: 15px;
+    height: 100px;
+    padding: 12px;
 }
 
 .home-container{
-    padding:20px; 
+    padding:12px; 
 }
 
 .search-icon{
-    width: 80px;
-    height: 80px; 
+    width: 60px;
+    height: 60px; 
 }
 
 .bubble-container {
@@ -69,35 +68,33 @@ nav{
     height: 100vh;
 }
 
-.tag-container {
-    display: flex;
+#tag-container{
+    display:flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    gap: 50px;
-    padding: 20px;
-    margin-top: 100px;
-    flex-wrap: wrap; 
+    width:100vw;
+    gap:50px;
+    padding:12px;
+    margin-top:80px;
 }
 
-.tag {
-    width: 180px; 
-    height: 80px;
-    font-size: 26pt;
+.tag{
+    width:156px;
+    height:67px;
+    font-size:24pt;
     background-color: transparent;
-    border: 3pt solid black;
-    border-radius: 8pt;
-    margin: 10px;
+    border: 2pt solid black;
+    border-radius: 5pt;
+
 }
 
-.back-link {
-    font-size: 36pt;
+.back-link{
+    font-size: 24pt;
     text-decoration: none;
-    padding: 60px 15px;
-    color: black;
+    padding:50px 10px;
+    color:black;
     display: block;
     text-align: left;
-    align-self: flex-start;
 }
 
 .input-container{
@@ -116,13 +113,12 @@ nav{
     border: 2px solid black; 
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 25px; 
-    margin-top: 40px;
-    flex-wrap: wrap; 
-  }
+.button-container{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:40px;
+}
 
 .edit-button{
     width: 156px;
@@ -159,62 +155,59 @@ nav{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .input-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 25px;
-    width: 100%;
-    max-width: 350px;
+    margin-bottom: 15px;
 }
 
 .input-container label {
-    font-size: 36px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    margin-bottom: 5px;
 }
 
 .input-container input {
-    width: 100%;
-    height: 50px; 
-    font-size: 24px; 
-    border: 2px solid black;
-    padding: 10px;
-    border-radius: 5px;
+    width: 260px;
+    height: 30px;
+    font-size: 16px;
+    border: 1px solid black;
+    padding: 5px;
 }
 
-.login-button, button[type="submit"] {
-    width: 100%;
-    height: 60px;
-    font-size: 26px; 
+.button-container {
+    margin-top: 20px;
+}
+
+.login-button {
+    width: 260px;
+    height: 40px;
+    font-size: 18px;
     background-color: #D9D9D9;
-    border: 3px solid black; 
-    border-radius: 8px;
+    border: 2px solid black;
+    border-radius: 5px;
     cursor: pointer;
-    font-family: 'Indie Flower', cursive;
 }
 
 .signup-text {
-    font-size: 32px;
-    margin-top: 25px;
+    font-size: 14px;
+    margin-top: 15px;
 }
 
 .signup-link {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     text-decoration: none;
     color: black;
 }
 
 .login-image {
-    width: 175px;
-    height: 175px;
-    margin-top: 30px;
+    width: 125px;
+    height: 125px;
 }
 
 .signup-container {
@@ -246,120 +239,103 @@ nav{
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-    padding: 25px;
-    box-sizing: border-box;
+    padding: 20px;
 }
 
 .bear-header {
-    margin-top: 70px;
-    margin-bottom: 30px;
+    margin-top: 60px;
+    margin-bottom: 20px;
 }
 .bear-image {
-    width: 400px;
+    width: 150px;
     height: auto; 
 }
 
 .date-container {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: left;
-    width: 90%;
-    max-width: 700px;
+    width: 80%;
+    max-width: 624px;
 }
 .date-label {
     display: block;
-    font-size: 32px;
-    margin-bottom: 15px;
-    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 .date-inputs {
     display: flex;
-    gap: 20px;
+    gap: 10px;
 }
-
 .date-inputs input {
-    width: 120px;
-    height: 60px;
-    border: 2px solid black;
-    padding: 10px;
-    font-size: 24px;
+    width: 90px;
+    border: 1px solid black;
+    padding: 5px;
+    font-size: 16px;
     text-align: center;
-    border-radius: 5px;
 }
 
 .tags-container {
-    margin-bottom: 30px;
-    width: 90%;
-    max-width: 700px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 624px;
 }
-
 .tags-container p {
-    font-size: 32px;
-    margin-bottom: 15px;
-    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
-
-
 .tag {
     background-color: transparent;
-    border: 4px solid black;
-    border-radius: 8px;
-    font-size: 28px;
-    margin: 10px;
-    padding: 12px 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: 18px;
+    margin: 5px;
+    padding: 5px 10px;
     cursor: pointer;
-    font-family: 'Indie Flower', cursive;
 }
+
 .description-container {
-    width: 90%;
-    max-width: 700px;
-    margin-bottom: 30px;
+    width: 80%;
+    max-width: 624px;
+    margin-bottom: 20px;
 }
 .description-container label {
     display: block;
-    font-size: 32px;
-    margin-bottom: 15px;
-    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 #dream-description {
     width: 100%;
-    height: 250px;
-    border: 3px solid black;
-    font-size: 24px;
-    padding: 15px;
+    height: 150px;
+    border: 2px solid black;
+    font-size: 16px;
+    padding: 10px;
     box-sizing: border-box;
-    border-radius: 8px;
-    font-family: 'Indie Flower', cursive;
 }
+
 .save-dream-button {
-    width: 360px;
-    height: 70px;
-    font-size: 28px;
+    width: 220px;
+    height: 40px;
+    font-size: 18px;
     background-color: #D9D9D9;
-    border: 3px solid black;
-    border-radius: 8px;
+    border: 2px solid black;
+    border-radius: 5px;
     cursor: pointer;
-    font-family: 'Indie Flower', cursive;
 }
 
 .flash-message {
     font-weight: bold;
-    margin: 15px 0;
-    font-size: 22px; 
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.flash-message.error {
-    color: red;
-    background-color: rgba(255, 0, 0, 0.1);
-}
-
-.flash-message.success {
-    color: green;
-    background-color: rgba(0, 255, 0, 0.1);
-}
+    margin: 10px 0;
+  }
+  
+  .flash-message.error {
+    color: red;        
+  }
+  
+  .flash-message.success {
+    color: green;     
+  }
   /* Star Cloud Container */
   #star-container {
     position: absolute;
@@ -407,36 +383,8 @@ nav{
 .analysis-button {
     font-family: 'Indie Flower', cursive;
     padding: 10px 20px;
-    font-size: 36px;
+    font-size: 24px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
-
-.center-button-container {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.notification {
-    font-weight: bold;
-    font-size: 26px;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
-
-.notification.error {
-    color: red;
-    background-color: rgba(255, 0, 0, 0.1);
-}
-
-.notification.success {
-    color: green;
-    background-color: rgba(0, 255, 0, 0.1);
-}
-
-.delete-button {
-    width: 420px !important;
-}

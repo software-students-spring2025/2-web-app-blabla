@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 
-load_dotenv(".env")
+load_dotenv("config.env")
 MONGO_URI = os.getenv("MONGO_URI")
 if not MONGO_URI:
     raise ValueError("No MongoDB URI found in environment variables. Please set MONGO_URI.")
@@ -148,46 +148,15 @@ def home():
 # analysis page
 @app.route('/analysis')
 def analysis():
-    username = session.get("username")
-    if not username:
-        flash("Please log in.", "error")
-        return redirect(url_for("index"))
-
-    # 1) MOOD DISTRIBUTION
-    pipeline_tags = [
-        {"$match": {"username": username}},
+    pipeline = [
         {"$unwind": {"path": "$dreams", "preserveNullAndEmptyArrays": True}},
         {"$unwind": {"path": "$dreams.tags", "preserveNullAndEmptyArrays": True}},
         {"$addFields": {"tag": {"$ifNull": ["$dreams.tags", "No Tag"]}}},
         {"$group": {"_id": "$tag", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}}
     ]
-    tag_trends = list(users_collection.aggregate(pipeline_tags))
-
-    # 2) MONTHLY DREAM FREQUENCY
-    # Group dreams by year and month of the dream date, then count.
-    pipeline_months = [
-        {"$match": {"username": username}},
-        {"$unwind": {"path": "$dreams", "preserveNullAndEmptyArrays": True}},
-        {
-            "$group": {
-                "_id": {
-                    "year": {"$year": "$dreams.date"},
-                    "month": {"$month": "$dreams.date"}
-                },
-                "count": {"$sum": 1}
-            }
-        },
-        # Sort by year, then by month
-        {"$sort": {"_id.year": 1, "_id.month": 1}}
-    ]
-    month_trends = list(users_collection.aggregate(pipeline_months))
-
-    return render_template(
-        'analysis.html',
-        tag_trends=tag_trends,
-        month_trends=month_trends
-    )
+    trends = list(users_collection.aggregate(pipeline))
+    return render_template('analysis.html', trends=trends)
 
 #edit_dream page
 @app.route("/edit_dream")

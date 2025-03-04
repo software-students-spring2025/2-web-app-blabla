@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Analysis Page</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    <div class="analysis-container">
+      <a class="back-link" href="/home"> ← Back</a>
+      <div class="input-container">
+        <input type="text" id="dream-search" placeholder="Search by category, dates" />
+      </div>
+
+      <!-- 1) Tag Trends -->
+      <div class="trend-container">
+        <h2>Dream Mood Trends</h2>
+        {% if tag_trends %}
+          <ul>
+            {% for trend in tag_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No tag data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 2) Mood Distribution -->
+      <div class="trend-container">
+        <h2>Dream Mood Distribution</h2>
+        {% if mood_trends %}
+          <ul>
+            {% for trend in mood_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No mood data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 3) Monthly Frequency -->
+      <div class="trend-container">
+        <h2>Monthly Dream Frequency</h2>
+        {% if month_trends %}
+          <ul>
+            {% for trend in month_trends %}
+              <li>
+                <strong>{{ trend._id.year }}-{{ trend._id.month }}:</strong>
+                {{ trend.count }} dreams
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No monthly data available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

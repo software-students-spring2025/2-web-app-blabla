@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Analysis Page</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+    <style>
+      /* Remove default body margin/padding to maximize mobile space */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Indie Flower', cursive;
+      }
+
+      /* Container that centers content and restricts width for mobile */
+      .analysis-container {
+        max-width: 380px;       /* Slightly narrower than 393px for safe padding */
+        margin: 0.5rem auto;    /* Minimal vertical margin, centered horizontally */
+        padding: 0.5rem;
+      }
+
+      /* Style the back link with bigger text */
+      .back-link {
+        display: inline-block;
+        margin-bottom: 0.8rem;
+        text-decoration: none;
+        font-size: 1.6rem;    /* Bigger for easy tapping on mobile */
+        color: #333;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Trend containers: reduced gap, minimal padding */
+      .trend-container {
+        margin-bottom: 0.6rem; /* Smaller gap between sections */
+        padding: 0.5rem;
+        background: #f9f9f9;
+        border-radius: 6px;
+      }
+
+      /* Larger, bolder headings for mobile readability */
+      .trend-container h2 {
+        margin: 0 0 0.4rem 0;
+        font-size: 2rem;      /* Nice and big for a phone screen */
+        color: #333;
+      }
+
+      /* Simple list styling with bigger font size */
+      .trend-container ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+      }
+      .trend-container li {
+        margin-bottom: 0.4rem;
+        font-size: 1.6rem;    /* Larger list text */
+        line-height: 1.2;     /* Slightly tighter line spacing */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="analysis-container">
+      <a class="back-link" href="/home">← Back</a>
+
+      <!-- 1) Tag Trends -->
+      <div class="trend-container">
+        <h2>Dream Tag Trends</h2>
+        {% if tag_trends %}
+          <ul>
+            {% for trend in tag_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No tag data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 2) Mood Distribution -->
+      <div class="trend-container">
+        <h2>Dream Mood Distribution</h2>
+        {% if mood_trends %}
+          <ul>
+            {% for trend in mood_trends %}
+              <li><strong>{{ trend._id }}:</strong> {{ trend.count }} dreams</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No mood data available.</p>
+        {% endif %}
+      </div>
+
+      <!-- 3) Monthly Dream Frequency -->
+      <div class="trend-container">
+        <h2>Monthly Dream Frequency</h2>
+        {% if month_trends %}
+          <ul>
+            {% for trend in month_trends %}
+              <li>
+                <strong>{{ trend._id.year }}-{{ trend._id.month }}:</strong>
+                {{ trend.count }} dreams
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No monthly data available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
