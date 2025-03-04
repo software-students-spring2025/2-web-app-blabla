@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from bson.objectid import ObjectId
 
 
-load_dotenv("config.env")
+load_dotenv(".env")
 MONGO_URI = os.getenv("MONGO_URI")
 if not MONGO_URI:
     raise ValueError("No MongoDB URI found in environment variables. Please set MONGO_URI.")
