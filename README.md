@@ -17,7 +17,7 @@ The Dream Journal App helps users log, analyze, and reflect on their dreams, ena
 Before running the software, ensure you have the following installed:
 - [Python 3.10+](https://www.python.org/downloads/)
 - [pip](https://pip.pypa.io/en/stable/)
-- [MongoDB](https://www.mongodb.com/try/download/community) (or a MongoDB URI for a hosted solution)
+- [MongoDB](https://www.mongodb.com/try/download/community)
 
 ### Getting Started
 
